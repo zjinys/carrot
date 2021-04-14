@@ -1,4 +1,4 @@
-package carrot
+package logwrapper
 
 import (
 	"fmt"
