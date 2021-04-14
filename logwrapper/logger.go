@@ -5,6 +5,7 @@ import (
 	"github.com/natefinch/lumberjack"
 	"go.uber.org/zap"
 	"go.uber.org/zap/zapcore"
+	"os"
 )
 
 func InitLogger(appName string) *zap.SugaredLogger {
@@ -22,11 +23,12 @@ func getEncoder() zapcore.Encoder {
 }
 func getLogWriter(appName string) zapcore.WriteSyncer {
 	lumberJackLogger := &lumberjack.Logger{
-		Filename:   fmt.Sprintf("./logs/%s.log", appName),
+		Filename:   fmt.Sprintf("/var/log/%s/%s.log", appName,appName),
 		MaxSize:    10,
 		MaxBackups: 10,
 		MaxAge:     30,
 		Compress:   false,
 	}
+	zapcore.AddSync(os.Stdout)
 	return zapcore.AddSync(lumberJackLogger)
 }
